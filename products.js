@@ -25,6 +25,16 @@ const loadProductsByCategory = (category) => {
     );
 };
 
+// load product details
+const loadProductDetails = (productId) => {
+  fetch(`https://fakestoreapi.com/products/${productId}`)
+    .then((response) => response.json())
+    .then((product) => displayProductModal(product))
+    .catch((error) => {
+      console.error("Error fetching product details:", error);
+    });
+};
+
 const displayCategories = (categories) => {
   const categoriesContainer = document.getElementById("categories-container");
 
@@ -100,6 +110,81 @@ const displayProductsByCategory = (products) => {
 
     productsContainer.appendChild(productCardDiv);
   });
+};
+
+const displayProductModal = (product) => {
+  const modal = document.getElementById("product-modal");
+  const modalBody = document.getElementById("modal-body");
+
+  modalBody.innerHTML = `
+    <div class="flex flex-col items-center justify-center py-16">
+      <span class="loading loading-spinner loading-lg text-indigo-600"></span>
+      <p class="mt-4 text-gray-500">Loading product details...</p>
+    </div>
+  `;
+  modal.showModal();
+
+  // Generate star rating HTML
+  const fullStars = Math.floor(product.rating.rate);
+  const hasHalfStar = product.rating.rate % 1 >= 0.5;
+  let starsHTML = "";
+  for (let i = 0; i < fullStars; i++) {
+    starsHTML += `<i class="fas fa-star text-yellow-400"></i>`;
+  }
+  if (hasHalfStar) {
+    starsHTML += `<i class="fas fa-star-half-alt text-yellow-400"></i>`;
+  }
+  const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+  for (let i = 0; i < emptyStars; i++) {
+    starsHTML += `<i class="far fa-star text-yellow-400"></i>`;
+  }
+
+  modalBody.innerHTML = `
+    <div class="flex flex-col md:flex-row gap-8">
+      <!-- Product Image -->
+      <div class="flex-shrink-0 bg-gray-100 rounded-xl flex items-center justify-center p-8 md:w-56 md:h-56 w-full h-48">
+        <img
+          src="${product.image}"
+          alt="${product.title}"
+          class="max-h-full max-w-full object-contain"
+        />
+      </div>
+
+      <!-- Product Info -->
+      <div class="flex-1 flex flex-col gap-3">
+        <!-- Category Badge -->
+        <span class="badge badge-ghost text-indigo-600 font-medium w-fit">${product.category}</span>
+
+        <!-- Full Title -->
+        <h2 class="text-xl font-bold text-gray-900 leading-snug">${product.title}</h2>
+
+        <!-- Rating -->
+        <div class="flex items-center gap-2">
+          <div class="flex items-center gap-0.5">${starsHTML}</div>
+          <span class="font-semibold text-gray-700">${product.rating.rate}</span>
+          <span class="text-gray-400 text-sm">(${product.rating.count} reviews)</span>
+        </div>
+
+        <!-- Price -->
+        <p class="text-3xl font-bold text-gray-900">$${product.price}</p>
+
+        <!-- Description -->
+        <p class="text-gray-600 text-sm leading-relaxed">${product.description}</p>
+
+        <!-- Action Buttons -->
+        <div class="flex gap-3 mt-2">
+          <button class="btn bg-indigo-600 hover:bg-indigo-700 text-white border-none flex-1">
+            <i class="fas fa-bolt"></i>
+            Buy Now
+          </button>
+          <button class="btn btn-outline border-indigo-600 text-indigo-600 hover:bg-indigo-600 hover:text-white flex-1">
+            <i class="fas fa-shopping-cart"></i>
+            Add to Cart
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
 };
 
 loadCategories();

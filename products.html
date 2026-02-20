@@ -65,7 +65,7 @@
         </div>
         <div class="navbar-center hidden lg:flex">
           <ul class="menu menu-horizontal px-1 font-semibold">
-            <li><a href="">Home</a></li>
+            <li><a href="./index.html">Home</a></li>
             <li><a href="./products.html">Products</a></li>
             <li><a href="">About</a></li>
             <li><a href="">Contact</a></li>
@@ -111,6 +111,33 @@
         </div>
       </section>
     </main>
+
+    <!-- Product Details Modal -->
+    <dialog id="product-modal" class="modal">
+      <div class="modal-box max-w-3xl w-full">
+        <!-- Close Button -->
+        <form method="dialog">
+          <button
+            class="btn btn-sm btn-circle btn-ghost absolute right-3 top-3"
+          >
+            <i class="fas fa-times"></i>
+          </button>
+        </form>
+
+        <h3 class="font-bold text-lg mb-6 text-gray-800 border-b pb-3">
+          Product Details
+        </h3>
+
+        <!-- Dynamic Content -->
+        <div id="modal-body">
+          <!-- Filled by JS -->
+        </div>
+      </div>
+      <!-- Click outside to close -->
+      <form method="dialog" class="modal-backdrop">
+        <button>close</button>
+      </form>
+    </dialog>
 
     <!-- Footer -->
     <footer class="bg-slate-800 text-gray-300">
