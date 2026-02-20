@@ -1,3 +1,38 @@
+// Cart State
+let cart = JSON.parse(localStorage.getItem("swiftcart")) || [];
+
+const saveCart = () => localStorage.setItem("swiftcart", JSON.stringify(cart));
+
+const addToCart = (product) => {
+  const existing = cart.find((item) => item.id === product.id);
+  if (existing) {
+    existing.quantity += 1;
+  } else {
+    cart.push({ ...product, quantity: 1 });
+  }
+  saveCart();
+  updateCartCount();
+  showToast(product.title);
+};
+
+const updateCartCount = () => {
+  const total = cart.reduce((sum, item) => sum + item.quantity, 0);
+  document.querySelectorAll(".cart-count-badge").forEach((badge) => {
+    badge.textContent = total;
+    badge.classList.toggle("hidden", total === 0);
+  });
+};
+
+const showToast = (title) => {
+  const toast = document.getElementById("cart-toast");
+  const msg = document.getElementById("toast-message");
+  const short = title.length > 30 ? title.substring(0, 30) + "…" : title;
+  msg.textContent = `"${short}" added to cart!`;
+  toast.classList.remove("hidden");
+  clearTimeout(toast._timer);
+  toast._timer = setTimeout(() => toast.classList.add("hidden"), 3000);
+};
+
 // load all products
 const loadProducts = () => {
   fetch("https://fakestoreapi.com/products")
@@ -67,6 +102,7 @@ const displayTrendingProducts = (products) => {
                     Details
                   </button>
                   <button
+                    id="add-btn-${product.id}"
                     class="btn btn-primary btn-sm flex-1 bg-indigo-600 hover:bg-indigo-700 border-indigo-600"
                   >
                     <i class="fas fa-shopping-cart"></i>
@@ -77,6 +113,10 @@ const displayTrendingProducts = (products) => {
             </div>`;
 
     trendingProductsContainer.appendChild(productCardDiv);
+
+    document
+      .getElementById(`add-btn-${product.id}`)
+      .addEventListener("click", () => addToCart(product));
   });
 };
 
@@ -141,11 +181,11 @@ const displayProductModal = (product) => {
 
         <!-- Action Buttons -->
         <div class="flex gap-3 mt-2">
-          <button class="btn bg-indigo-600 hover:bg-indigo-700 text-white border-none flex-1">
+          <button id="modal-buy-btn" class="btn bg-indigo-600 hover:bg-indigo-700 text-white border-none flex-1">
             <i class="fas fa-bolt"></i>
             Buy Now
           </button>
-          <button class="btn btn-outline border-indigo-600 text-indigo-600 hover:bg-indigo-600 hover:text-white flex-1">
+          <button id="modal-cart-btn" class="btn btn-outline border-indigo-600 text-indigo-600 hover:bg-indigo-600 hover:text-white flex-1">
             <i class="fas fa-shopping-cart"></i>
             Add to Cart
           </button>
@@ -153,6 +193,15 @@ const displayProductModal = (product) => {
       </div>
     </div>
   `;
+
+  document
+    .getElementById("modal-cart-btn")
+    .addEventListener("click", () => addToCart(product));
+  document.getElementById("modal-buy-btn").addEventListener("click", () => {
+    addToCart(product);
+    document.getElementById("product-modal").close();
+  });
 };
 
 loadProducts();
+updateCartCount();

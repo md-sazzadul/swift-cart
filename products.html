@@ -48,15 +48,10 @@
               tabindex="-1"
               class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
             >
-              <li><a>Item 1</a></li>
-              <li>
-                <a>Parent</a>
-                <ul class="p-2">
-                  <li><a>Submenu 1</a></li>
-                  <li><a>Submenu 2</a></li>
-                </ul>
-              </li>
-              <li><a>Item 3</a></li>
+              <li><a href="./index.html">Home</a></li>
+              <li><a href="./products.html">Products</a></li>
+              <li><a href="">About</a></li>
+              <li><a href="">Contact</a></li>
             </ul>
           </div>
           <a class="btn btn-ghost text-xl text-indigo-500 font-bold"
@@ -72,7 +67,12 @@
           </ul>
         </div>
         <div class="navbar-end">
-          <a class="btn btn-ghost"><i class="fa-solid fa-cart-shopping"></i></a>
+          <a class="btn btn-ghost relative"
+            ><i class="fa-solid fa-cart-shopping text-lg"></i
+            ><span
+              class="cart-count-badge hidden absolute -top-1 -right-1 bg-indigo-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center leading-none"
+            ></span
+          ></a>
         </div>
       </div>
     </header>
@@ -138,6 +138,26 @@
         <button>close</button>
       </form>
     </dialog>
+
+    <!-- Toast Notification -->
+    <div id="cart-toast" class="hidden fixed bottom-6 right-6 z-50">
+      <div
+        class="flex items-center gap-3 bg-gray-900 text-white px-5 py-3 rounded-xl shadow-2xl"
+      >
+        <div class="bg-indigo-600 rounded-full p-1.5">
+          <i class="fas fa-check text-xs"></i>
+        </div>
+        <span id="toast-message" class="text-sm font-medium"></span>
+        <button
+          onclick="
+            document.getElementById('cart-toast').classList.add('hidden')
+          "
+          class="ml-2 text-gray-400 hover:text-white transition-colors"
+        >
+          <i class="fas fa-times text-xs"></i>
+        </button>
+      </div>
+    </div>
 
     <!-- Footer -->
     <footer class="bg-slate-800 text-gray-300 px-36">
