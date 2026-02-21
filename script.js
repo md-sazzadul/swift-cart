@@ -82,8 +82,6 @@ const renderCartSidebar = () => {
     return;
   }
 
-  console.log(cart);
-
   list.innerHTML = cart
     .map(
       (item) => `
@@ -124,8 +122,39 @@ const renderCartSidebar = () => {
   if (countEl) countEl.textContent = totalItems;
 };
 
+// skeleton card
+const skeletonCard = () => `
+  <div class="card bg-white shadow-sm animate-pulse">
+    <div class="bg-gray-200 h-56 rounded-t-2xl"></div>
+    <div class="card-body p-6 space-y-3">
+      <div class="flex justify-between">
+        <div class="h-4 bg-gray-200 rounded w-24"></div>
+        <div class="h-4 bg-gray-200 rounded w-16"></div>
+      </div>
+      <div class="h-4 bg-gray-200 rounded w-full"></div>
+      <div class="h-4 bg-gray-200 rounded w-3/4"></div>
+      <div class="h-6 bg-gray-200 rounded w-20"></div>
+      <div class="flex gap-2 pt-2">
+        <div class="h-8 bg-gray-200 rounded flex-1"></div>
+        <div class="h-8 bg-gray-200 rounded flex-1"></div>
+      </div>
+    </div>
+  </div>`;
+
+// display skeletons
+const showSkeletons = (containerId, count) => {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+  container.innerHTML = Array(count).fill(skeletonCard()).join("");
+};
+
 // load all products
 const loadProducts = () => {
+  if (document.getElementById("trending-products"))
+    showSkeletons("trending-products", 3);
+  if (document.getElementById("products-container"))
+    showSkeletons("products-container", 8);
+
   fetch("https://fakestoreapi.com/products")
     .then((response) => response.json())
     .then((data) => {
@@ -147,6 +176,8 @@ const loadCategories = () => {
 
 // load products by category
 const loadProductsByCategory = (category) => {
+  showSkeletons("products-container", 8);
+
   const url = `https://fakestoreapi.com/products/category/${category}`;
   fetch(url)
     .then((response) => response.json())
@@ -158,11 +189,21 @@ const loadProductsByCategory = (category) => {
 
 // load product details
 const loadProductDetails = (productId) => {
+  const modal = document.getElementById("product-modal");
+  const modalBody = document.getElementById("modal-body");
+  modalBody.innerHTML = `
+    <div class="flex flex-col items-center justify-center py-16 gap-4">
+      <span class="loading loading-spinner loading-lg text-indigo-600"></span>
+      <p class="text-gray-400 text-sm">Loading product details…</p>
+    </div>`;
+  modal.showModal();
+
   fetch(`https://fakestoreapi.com/products/${productId}`)
     .then((response) => response.json())
     .then((product) => displayProductModal(product))
     .catch((error) => {
       console.error("Error fetching product details:", error);
+      modalBody.innerHTML = `<p class="text-center text-red-500 py-8">Failed to load. Please try again.</p>`;
     });
 };
 
@@ -170,6 +211,7 @@ const loadProductDetails = (productId) => {
 const displayTrendingProducts = (products) => {
   const trendingProductsContainer =
     document.getElementById("trending-products");
+  trendingProductsContainer.innerHTML = "";
 
   const trendingProducts = [...products]
     .sort((a, b) => b.rating.rate - a.rating.rate)
@@ -325,14 +367,6 @@ const displayCategories = (categories) => {
 const displayProductModal = (product) => {
   const modal = document.getElementById("product-modal");
   const modalBody = document.getElementById("modal-body");
-
-  modalBody.innerHTML = `
-    <div class="flex flex-col items-center justify-center py-16">
-      <span class="loading loading-spinner loading-lg text-indigo-600"></span>
-      <p class="mt-4 text-gray-500">Loading product details...</p>
-    </div>
-  `;
-  modal.showModal();
 
   // Generate star rating HTML
   const fullStars = Math.floor(product.rating.rate);
