@@ -27,16 +27,18 @@
       <!-- navbar section -->
       <div class="navbar bg-base-100 shadow-sm md:px-36">
         <div class="navbar-start">
-          <a class="btn btn-ghost text-xl text-indigo-500 font-bold"
+          <a
+            href="./index.html"
+            class="btn btn-ghost text-xl text-indigo-500 font-bold"
             >SwiftCart</a
           >
         </div>
         <div class="navbar-center hidden lg:flex">
           <ul class="menu menu-horizontal px-1 font-semibold">
-            <li><a href="./index.html">Home</a></li>
-            <li><a href="./products.html">Products</a></li>
-            <li><a href="">About</a></li>
-            <li><a href="">Contact</a></li>
+            <li><a href="./index.html" class="nav-link">Home</a></li>
+            <li><a href="./products.html" class="nav-link">Products</a></li>
+            <li><a href="#" class="nav-link">About</a></li>
+            <li><a href="#" class="nav-link">Contact</a></li>
           </ul>
         </div>
         <div class="navbar-end">
@@ -67,10 +69,10 @@
               tabindex="-1"
               class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
             >
-              <li><a href="./index.html">Home</a></li>
-              <li><a href="./products.html">Products</a></li>
-              <li><a href="">About</a></li>
-              <li><a href="">Contact</a></li>
+              <li><a href="./index.html" class="nav-link">Home</a></li>
+              <li><a href="./products.html" class="nav-link">Products</a></li>
+              <li><a href="#" class="nav-link">About</a></li>
+              <li><a href="#" class="nav-link">Contact</a></li>
             </ul>
           </div>
         </div>
@@ -95,7 +97,7 @@
           >
             <button
               onclick="loadProducts()"
-              class="btn btn-sm bg-indigo-600 hover:bg-indigo-700 text-white border-none px-6"
+              class="btn btn-sm bg-white text-indigo-600 border border-indigo-600 hover:bg-indigo-700 hover:text-white hover:border-none px-6"
             >
               All
             </button>
@@ -386,5 +388,18 @@
     </footer>
 
     <script src="./script.js"></script>
+
+    <script>
+      // Highlight active nav link based on current page
+      const currentPage =
+        window.location.pathname.split("/").pop() || "index.html";
+      document.querySelectorAll(".nav-link").forEach((link) => {
+        const linkPage = link.getAttribute("href").split("/").pop();
+        if (linkPage === currentPage) {
+          link.classList.add("text-indigo-600", "font-bold");
+          link.classList.remove("text-gray-700");
+        }
+      });
+    </script>
   </body>
 </html>

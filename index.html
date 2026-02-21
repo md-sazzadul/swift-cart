@@ -33,10 +33,10 @@
         </div>
         <div class="navbar-center hidden lg:flex">
           <ul class="menu menu-horizontal px-1 font-semibold">
-            <li><a href="./index.html">Home</a></li>
-            <li><a href="./products.html">Products</a></li>
-            <li><a href="">About</a></li>
-            <li><a href="">Contact</a></li>
+            <li><a href="./index.html" class="nav-link">Home</a></li>
+            <li><a href="./products.html" class="nav-link">Products</a></li>
+            <li><a href="#" class="nav-link">About</a></li>
+            <li><a href="#" class="nav-link">Contact</a></li>
           </ul>
         </div>
         <div class="navbar-end">
@@ -67,10 +67,10 @@
               tabindex="-1"
               class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
             >
-              <li><a href="./index.html">Home</a></li>
-              <li><a href="./products.html">Products</a></li>
-              <li><a>About</a></li>
-              <li><a>Contact</a></li>
+              <li><a href="./index.html" class="nav-link">Home</a></li>
+              <li><a href="./products.html" class="nav-link">Products</a></li>
+              <li><a href="#" class="nav-link">About</a></li>
+              <li><a href="#" class="nav-link">Contact</a></li>
             </ul>
           </div>
         </div>
@@ -524,5 +524,18 @@
     </footer>
 
     <script src="./script.js"></script>
+
+    <script>
+      // Highlight active nav link based on current page
+      const currentPage =
+        window.location.pathname.split("/").pop() || "index.html";
+      document.querySelectorAll(".nav-link").forEach((link) => {
+        const linkPage = link.getAttribute("href").split("/").pop();
+        if (linkPage === currentPage) {
+          link.classList.add("text-indigo-600", "font-bold");
+          link.classList.remove("text-gray-700");
+        }
+      });
+    </script>
   </body>
 </html>

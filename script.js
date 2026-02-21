@@ -150,6 +150,11 @@ const showSkeletons = (containerId, count) => {
 
 // load all products
 const loadProducts = () => {
+  const allBtn = document.querySelector(
+    "#categories-container button:first-child",
+  );
+  if (allBtn) setActiveCategory(allBtn);
+
   if (document.getElementById("trending-products"))
     showSkeletons("trending-products", 3);
   if (document.getElementById("products-container"))
@@ -345,6 +350,28 @@ const displayProductsByCategory = (products) => {
   });
 };
 
+// set active category button style
+const setActiveCategory = (activeBtn) => {
+  const categoriesContainer = document.getElementById("categories-container");
+  if (!categoriesContainer) return;
+  categoriesContainer.querySelectorAll("button").forEach((btn) => {
+    btn.classList.remove("bg-indigo-600", "text-white");
+    btn.classList.add(
+      "bg-white",
+      "text-indigo-600",
+      "border",
+      "border-indigo-600",
+    );
+  });
+  activeBtn.classList.remove(
+    "bg-white",
+    "text-indigo-600",
+    "border",
+    "border-indigo-600",
+  );
+  activeBtn.classList.add("bg-indigo-600", "text-white");
+};
+
 // display categories
 const displayCategories = (categories) => {
   const categoriesContainer = document.getElementById("categories-container");
@@ -353,13 +380,14 @@ const displayCategories = (categories) => {
     const categoryButton = document.createElement("button");
 
     categoryButton.className =
-      "btn btn-sm bg-indigo-600 hover:bg-indigo-700 text-white border-none px-6";
+      "btn btn-sm bg-white text-indigo-600 border border-indigo-600 hover:bg-indigo-700 hover:text-white hover:border-none px-6";
 
     categoryButton.textContent = category;
 
-    categoryButton.addEventListener("click", () =>
-      loadProductsByCategory(category),
-    );
+    categoryButton.addEventListener("click", () => {
+      setActiveCategory(categoryButton);
+      loadProductsByCategory(category);
+    });
     categoriesContainer.appendChild(categoryButton);
   });
 };
