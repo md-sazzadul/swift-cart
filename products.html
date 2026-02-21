@@ -40,7 +40,7 @@
           </ul>
         </div>
         <div class="navbar-end">
-          <a class="btn btn-ghost relative"
+          <a onclick="openCart()" class="btn btn-ghost relative cursor-pointer"
             ><i class="fa-solid fa-cart-shopping text-lg"></i
             ><span
               class="cart-count-badge hidden absolute -top-1 -right-1 bg-indigo-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center leading-none"
@@ -138,6 +138,54 @@
         <button>close</button>
       </form>
     </dialog>
+
+    <!-- Cart Sidebar Overlay -->
+    <div
+      id="cart-overlay"
+      class="hidden fixed inset-0 bg-black/40 z-40"
+      onclick="closeCart()"
+    ></div>
+
+    <!-- Cart Sidebar -->
+    <div
+      id="cart-sidebar"
+      class="fixed top-0 right-0 h-full w-full max-w-sm bg-white shadow-2xl z-50 flex flex-col translate-x-full transition-transform duration-300 ease-in-out"
+    >
+      <!-- Header -->
+      <div class="flex items-center justify-between px-6 py-4 border-b">
+        <h2 class="text-lg font-bold text-gray-900">
+          <i class="fas fa-shopping-cart text-indigo-600 mr-2"></i>Your Cart
+        </h2>
+        <button onclick="closeCart()" class="btn btn-sm btn-circle btn-ghost">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <!-- Cart Items -->
+      <div
+        id="cart-items-list"
+        class="flex-1 overflow-y-auto px-6 py-4 space-y-4"
+      >
+        <!-- Filled by JS -->
+      </div>
+
+      <!-- Footer: Total + Checkout -->
+      <div class="border-t px-6 py-5 bg-gray-50 space-y-4">
+        <div class="flex justify-between items-center">
+          <span class="text-gray-500 text-sm"
+            >Subtotal (<span id="cart-item-count">0</span> items)</span
+          >
+          <span id="cart-total-price" class="text-xl font-bold text-gray-900"
+            >$0.00</span
+          >
+        </div>
+        <button
+          class="btn w-full bg-indigo-600 hover:bg-indigo-700 text-white border-none"
+        >
+          <i class="fas fa-bolt mr-1"></i> Checkout
+        </button>
+      </div>
+    </div>
 
     <!-- Toast Notification -->
     <div id="cart-toast" class="hidden fixed bottom-6 right-6 z-50">

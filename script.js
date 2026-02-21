@@ -33,6 +33,97 @@ const showToast = (title) => {
   toast._timer = setTimeout(() => toast.classList.add("hidden"), 3000);
 };
 
+// Cart Sidebar
+const openCart = () => {
+  renderCartSidebar();
+  document.getElementById("cart-sidebar").classList.remove("translate-x-full");
+  document.getElementById("cart-overlay").classList.remove("hidden");
+};
+
+const closeCart = () => {
+  document.getElementById("cart-sidebar").classList.add("translate-x-full");
+  document.getElementById("cart-overlay").classList.add("hidden");
+};
+
+const removeFromCart = (productId) => {
+  cart = cart.filter((item) => item.id !== productId);
+  saveCart();
+  updateCartCount();
+  renderCartSidebar();
+};
+
+const changeQuantity = (productId, delta) => {
+  const item = cart.find((i) => i.id === productId);
+  if (!item) return;
+  item.quantity += delta;
+  if (item.quantity <= 0) {
+    cart = cart.filter((i) => i.id !== productId);
+  }
+  saveCart();
+  updateCartCount();
+  renderCartSidebar();
+};
+
+const renderCartSidebar = () => {
+  const list = document.getElementById("cart-items-list");
+  const totalEl = document.getElementById("cart-total-price");
+  const countEl = document.getElementById("cart-item-count");
+  if (!list) return;
+
+  if (cart.length === 0) {
+    list.innerHTML = `
+      <div class="flex flex-col items-center justify-center h-full py-20 text-center text-gray-400">
+        <i class="fas fa-cart-shopping text-5xl mb-4 text-gray-200"></i>
+        <p class="font-medium text-gray-500">Your cart is empty</p>
+        <p class="text-sm mt-1">Add some products to get started!</p>
+      </div>`;
+    if (totalEl) totalEl.textContent = "$0.00";
+    if (countEl) countEl.textContent = "0";
+    return;
+  }
+
+  console.log(cart);
+
+  list.innerHTML = cart
+    .map(
+      (item) => `
+    <div class="flex gap-4 items-start bg-gray-50 rounded-xl p-3">
+      <!-- Image -->
+      <div class="w-16 h-16 bg-white rounded-lg flex items-center justify-center flex-shrink-0 border">
+        <img src="${item.image}" alt="${item.title}" class="w-12 h-12 object-contain" />
+      </div>
+      <!-- Info -->
+      <div class="flex-1 min-w-0">
+        <p class="text-sm font-semibold text-gray-800 leading-tight line-clamp-2">
+          ${item.title.length > 45 ? item.title.substring(0, 45) + "…" : item.title}
+        </p>
+        <p class="text-indigo-600 font-bold mt-1">$${(item.price * item.quantity).toFixed(2)}</p>
+        <!-- Quantity Controls -->
+        <div class="flex items-center gap-2 mt-2">
+          <button onclick="changeQuantity(${item.id}, -1)" class="btn btn-xs btn-circle btn-ghost border border-gray-300 hover:bg-indigo-50">
+            <i class="fas fa-minus text-xs"></i>
+          </button>
+          <span class="text-sm font-semibold w-5 text-center">${item.quantity}</span>
+          <button onclick="changeQuantity(${item.id}, 1)" class="btn btn-xs btn-circle btn-ghost border border-gray-300 hover:bg-indigo-50">
+            <i class="fas fa-plus text-xs"></i>
+          </button>
+        </div>
+      </div>
+      <!-- Remove -->
+      <button onclick="removeFromCart(${item.id})" class="btn btn-xs btn-circle btn-ghost text-gray-400 hover:text-red-500 hover:bg-red-50 flex-shrink-0">
+        <i class="fas fa-trash text-xs"></i>
+      </button>
+    </div>
+  `,
+    )
+    .join("");
+
+  const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+  if (totalEl) totalEl.textContent = `$${total.toFixed(2)}`;
+  if (countEl) countEl.textContent = totalItems;
+};
+
 // load all products
 const loadProducts = () => {
   fetch("https://fakestoreapi.com/products")
