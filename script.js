@@ -219,11 +219,14 @@ const displayCategories = (categories) => {
   categories.forEach((category) => {
     const categoryButton = document.createElement("button");
 
-    categoryButton.innerHTML = `
-        <button onclick="loadProductsByCategory('${category}')" class="btn btn-sm bg-indigo-600 hover:bg-indigo-700 text-white border-none px-6">
-            ${category}
-        </button>`;
+    categoryButton.className =
+      "btn btn-sm bg-indigo-600 hover:bg-indigo-700 text-white border-none px-6";
 
+    categoryButton.textContent = category;
+
+    categoryButton.addEventListener("click", () =>
+      loadProductsByCategory(category),
+    );
     categoriesContainer.appendChild(categoryButton);
   });
 };
