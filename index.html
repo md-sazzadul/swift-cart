@@ -25,9 +25,28 @@
   <body>
     <header>
       <!-- navbar section -->
-      <div class="navbar bg-base-100 shadow-sm px-36">
+      <div class="navbar bg-base-100 shadow-sm md:px-36">
         <div class="navbar-start">
-          <div class="dropdown">
+          <a class="btn btn-ghost text-xl text-indigo-500 font-bold"
+            >SwiftCart</a
+          >
+        </div>
+        <div class="navbar-center hidden lg:flex">
+          <ul class="menu menu-horizontal px-1 font-semibold">
+            <li><a href="./index.html">Home</a></li>
+            <li><a href="./products.html">Products</a></li>
+            <li><a href="">About</a></li>
+            <li><a href="">Contact</a></li>
+          </ul>
+        </div>
+        <div class="navbar-end">
+          <a class="btn btn-ghost relative"
+            ><i class="fa-solid fa-cart-shopping text-lg"></i
+            ><span
+              class="cart-count-badge hidden absolute -top-1 -right-1 bg-indigo-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center leading-none"
+            ></span
+          ></a>
+          <div class="dropdown dropdown-end">
             <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -54,30 +73,11 @@
               <li><a>Contact</a></li>
             </ul>
           </div>
-          <a class="btn btn-ghost text-xl text-indigo-500 font-bold"
-            >SwiftCart</a
-          >
-        </div>
-        <div class="navbar-center hidden lg:flex">
-          <ul class="menu menu-horizontal px-1 font-semibold">
-            <li><a href="./index.html">Home</a></li>
-            <li><a href="./products.html">Products</a></li>
-            <li><a href="">About</a></li>
-            <li><a href="">Contact</a></li>
-          </ul>
-        </div>
-        <div class="navbar-end">
-          <a class="btn btn-ghost relative"
-            ><i class="fa-solid fa-cart-shopping text-lg"></i
-            ><span
-              class="cart-count-badge hidden absolute -top-1 -right-1 bg-indigo-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center leading-none"
-            ></span
-          ></a>
         </div>
       </div>
 
       <!-- Hero Section -->
-      <section class="relative h-screen w-full overflow-hidden px-20">
+      <section class="relative h-screen w-full overflow-hidden md:px-20">
         <div class="absolute inset-0">
           <img
             src="assets/banner-image.png"
@@ -116,7 +116,7 @@
 
     <main>
       <!-- Why Choose Us Section -->
-      <section class="py-16 px-36 md:py-20 bg-gray-50">
+      <section class="py-16 px-4 md:px-36 md:py-20 bg-gray-50">
         <div class="container mx-auto max-w-7xl">
           <!-- Section Header -->
           <div class="text-center mb-12">
@@ -232,7 +232,7 @@
       </section>
 
       <!-- Trending Now Section -->
-      <section class="py-16 px-36">
+      <section class="py-16 px-4 md:px-36">
         <div class="container mx-auto max-w-7xl">
           <!-- Section Title -->
           <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-10">
@@ -298,7 +298,7 @@
     </div>
 
     <!-- Footer -->
-    <footer class="bg-slate-800 text-gray-300 px-36">
+    <footer class="bg-slate-800 text-gray-300 md:px-36">
       <!-- Main Footer Content -->
       <div class="container mx-auto px-6 py-12">
         <div
@@ -430,7 +430,7 @@
       <div class="border-t border-slate-700">
         <div class="container mx-auto px-6 py-6">
           <div
-            class="flex flex-col md:flex-row justify-between items-center gap-4"
+            class="flex flex-col-reverse md:flex-row justify-between items-center gap-4"
           >
             <!-- Copyright -->
             <p class="text-gray-400 text-sm">
