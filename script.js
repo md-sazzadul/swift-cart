@@ -25,9 +25,9 @@ const updateCartCount = () => {
 
 const showToast = (title) => {
   const toast = document.getElementById("cart-toast");
-  const msg = document.getElementById("toast-message");
+  const message = document.getElementById("toast-message");
   const short = title.length > 30 ? title.substring(0, 30) + "…" : title;
-  msg.textContent = `"${short}" added to cart!`;
+  message.textContent = `"${short}" added to cart!`;
   toast.classList.remove("hidden");
   clearTimeout(toast._timer);
   toast._timer = setTimeout(() => toast.classList.add("hidden"), 3000);
@@ -66,8 +66,8 @@ const changeQuantity = (productId, delta) => {
 
 const renderCartSidebar = () => {
   const list = document.getElementById("cart-items-list");
-  const totalEl = document.getElementById("cart-total-price");
-  const countEl = document.getElementById("cart-item-count");
+  const totalElement = document.getElementById("cart-total-price");
+  const countElement = document.getElementById("cart-item-count");
   if (!list) return;
 
   if (cart.length === 0) {
@@ -77,8 +77,8 @@ const renderCartSidebar = () => {
         <p class="font-medium text-gray-500">Your cart is empty</p>
         <p class="text-sm mt-1">Add some products to get started!</p>
       </div>`;
-    if (totalEl) totalEl.textContent = "$0.00";
-    if (countEl) countEl.textContent = "0";
+    if (totalElement) totalElement.textContent = "$0.00";
+    if (countElement) countElement.textContent = "0";
     return;
   }
 
@@ -118,8 +118,8 @@ const renderCartSidebar = () => {
 
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-  if (totalEl) totalEl.textContent = `$${total.toFixed(2)}`;
-  if (countEl) countEl.textContent = totalItems;
+  if (totalElement) totalElement.textContent = `$${total.toFixed(2)}`;
+  if (countElement) countElement.textContent = totalItems;
 };
 
 // skeleton card
@@ -393,7 +393,6 @@ const displayCategories = (categories) => {
 };
 
 const displayProductModal = (product) => {
-  const modal = document.getElementById("product-modal");
   const modalBody = document.getElementById("modal-body");
 
   // Generate star rating HTML
